@@ -9,10 +9,11 @@ namespace PPRG.Sorts
 {
     class Program
     {
-        private static int[] _numbers = new int[10000000];
+        private static int[] _numbers = new int[1000];
 
         private static readonly List<double> Thresholds = new List<double>
         {
+            0,
             0.01,
             0.1,
             1,
@@ -21,7 +22,7 @@ namespace PPRG.Sorts
             20,
             30,
             40,
-            50
+            50,
         };
 
         static void Main(string[] args)
@@ -32,7 +33,7 @@ namespace PPRG.Sorts
             synchronousClock.Start();
             for (int i = 0; i < 10; i++)
             {
-                QuickSort.QuickSortSynchron((int[]) _numbers.Clone(), 0, _numbers.Length - 1);
+                QuickSort.QuickSortSynchron((int[])_numbers.Clone(), 0, _numbers.Length - 1);
             }
 
             synchronousClock.Stop();
@@ -43,13 +44,37 @@ namespace PPRG.Sorts
                 asynchronousClock.Start();
                 for (int i = 0; i < 10; i++)
                 {
-                    QuickSort.QuickSortParallel((int[]) _numbers.Clone(), 0, _numbers.Length - 1, threshold);
+                    QuickSort.QuickSortParallel((int[])_numbers.Clone(), 0, _numbers.Length - 1, threshold);
                 }
 
                 asynchronousClock.Stop();
 
                 Console.WriteLine($"{synchronousClock.Elapsed / asynchronousClock.Elapsed}");
             }
+
+
+            //var synchronousClock = new Stopwatch();
+            //synchronousClock.Start();
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    MergeSort.MergeSortSynchronous((int[])_numbers.Clone(), 0, _numbers.Length - 1);
+            //}
+
+            //synchronousClock.Stop();
+
+            //foreach (var threshold in Thresholds)
+            //{
+            //    var asynchronousClock = new Stopwatch();
+            //    asynchronousClock.Start();
+            //    for (int i = 0; i < 10; i++)
+            //    {
+            //        MergeSort.MergeSortParallel((int[])_numbers.Clone(), 0, _numbers.Length - 1, threshold);
+            //    }
+
+            //    asynchronousClock.Stop();
+
+            //    Console.WriteLine($"{synchronousClock.Elapsed / asynchronousClock.Elapsed}");
+            //}
 
 
             Console.ReadLine();
